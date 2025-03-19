@@ -18,9 +18,12 @@ const io = new Server(server, {
 });
 
 // Подключение к MongoDB
-mongoose.connect('mongodb://localhost:27017/ranking-system', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect('mongodb://localhost:27017/ranking-system')
+.then(() => {
+  console.log('Подключение к MongoDB успешно');
+})
+.catch((err) => {
+  console.error('Ошибка подключения к MongoDB:', err);
 });
 
 // Middleware
@@ -50,7 +53,7 @@ io.on('connection', (socket) => {
 });
 
 // Запуск сервера
-const PORT = 5000;
+const PORT = 5000; // Или другой порт, если 5000 занят
 server.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
