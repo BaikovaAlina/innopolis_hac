@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ходилка-бродилка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        #game {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            position: relative;
+        }
+        .board {
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+            height: 500px;
+        }
+        .cell {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cell:hover {
+            background-color: #45a049;
+        }
+        .line {
+            position: absolute;
+            height: 2px;
+            background-color: #000;
+            transform-origin: 0 0;
+        }
+        .player {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+            transition: all 0.5s ease-in-out;
+        }
+        .player[data-player="2"] {
+            background-color: blue;
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #45a049;
+        }
+        .tab.active {
+            background-color: #2E7D32;
+        }
+        .game-container {
+            display: none;
+        }
+        .game-container.active {
+            display: block;
+        }
+        #login-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #login-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game">
+    <button id="login-button">Вход</button>
+    <h1>Игра-ходилка</h1>
+
+    <div class="game-container active" data-tab="0">
+        <div class="board" id="board-0"></div>
+        <div id="controls-0">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-0" min="1" max="6">
+            <button onclick="move(0)">Сделать ход</button>
+        </div>
+        <div id="status-0"></div>
+    </div>
+
+    <div class="game-container" data-tab="1">
+        <div class="board" id="board-1"></div>
+        <div id="controls-1">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-1" min="1" max="6">
+            <button onclick="move(1)">Сделать ход</button>
+        </div>
+        <div id="status-1"></div>
+    </div>
+
+    <div class="game-container" data-tab="2">
+        <div class="board" id="board-2"></div>
+        <div id="controls-2">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-2" min="1" max="6">
+            <button onclick="move(2)">Сделать ход</button>
+        </div>
+        <div id="status-2"></div>
+    </div>
+
+    <div class="game-container" data-tab="3">
+        <div class="board" id="board-3"></div>
+        <div id="controls-3">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-3" min="1" max="6">
+            <button onclick="move(3)">Сделать ход</button>
+        </div>
+        <div id="status-3"></div>
+    </div>
+
+    <div class="game-container" data-tab="4">
+        <div class="board" id="board-4"></div>
+        <div id="controls-4">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-4" min="1" max="6">
+            <button onclick="move(4)">Сделать ход</button>
+        </div>
+        <div id="status-4"></div>
+    </div>
+
+    <div class="game-container" data-tab="5">
+        <div class="board" id="board-5"></div>
+        <div id="controls-5">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-5" min="1" max="6">
+            <button onclick="move(5)">Сделать ход</button>
+        </div>
+        <div id="status-5"></div>
+    </div>
+
+    <div class="game-container" data-tab="6">
+        <div class="board" id="board-6"></div>
+        <div id="controls-6">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-6" min="1" max="6">
+            <button onclick="move(6)">Сделать ход</button>
+        </div>
+        <div id="status-6"></div>
+    </div>
+
+    <div class="game-container" data-tab="7">
+        <div class="board" id="board-7"></div>
+        <div id="controls-7">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-7" min="1" max="6">
+            <button onclick="move(7)">Сделать ход</button>
+        </div>
+        <div id="status-7"></div>
+    </div>
+
+    <div class="game-container" data-tab="8">
+        <div class="board" id="board-8"></div>
+        <div id="controls-8">
+            <p>Введите количество шагов (от 1 до 6):</p>
+            <input type="number" id="steps-8" min="1" max="6">
+            <button onclick="move(8)">Сделать ход</button>
+        </div>
+        <div id="status-8"></div>
+    </div>
+
+    <div class="tabs" id="tabs">
+        <div class="tab" data-tab="0">Олимпиадное программирование. Группа D</div>
+        <div class="tab" data-tab="1">Олимпиадное программирование. Группа С</div>
+        <div class="tab" data-tab="2">Олимпиадное программирование. Группа В</div>
+        <div class="tab" data-tab="3">Олимпиадное программирование. Группа B+</div>
+        <div class="tab" data-tab="4">Программирование на Python</div>
+        <div class="tab" data-tab="5">Разработка Telegram-ботов</div>
+        <div class="tab" data-tab="6">3D моделирование и разработка игр</div>
+        <div class="tab" data-tab="7">.</div>
+        <div class="tab" data-tab="8">.</div>
+    </div>
+</div>
+
+<script>
+    const numCells = 50;
+    const cellsPerRow = 10;
+    const games = [];
+
+    // Инициализация игр
+    for (let i = 0; i < 9; i++) {
+        games.push({
+            players: [
+                { id: 1, position: 0, element: null },
+                { id: 2, position: 0, element: null }
+            ],
+            currentPlayer: 0,
+            cellPositions: [],
+            board: document.getElementById(`board-${i}`),
+            stepsInput: document.getElementById(`steps-${i}`),
+            statusDiv: document.getElementById(`status-${i}`)
+        });
+
+        createBoard(games[i]);
+    }
+
+    // Создаем игровое поле для конкретной игры
+    function createBoard(game) {
+        let x = 0, y = 0;
+        let direction = 1;
+
+        for (let i = 0; i < numCells; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.textContent = i + 1;
+            cell.dataset.index = i;
+
+            cell.style.left = `${x}px`;
+            cell.style.top = `${y}px`;
+            game.cellPositions.push({ x, y });
+
+            if (i > 0) {
+                const line = document.createElement('div');
+                line.classList.add('line');
+                const prevCell = game.cellPositions[i - 1];
+                const dx = x - prevCell.x;
+                const dy = y - prevCell.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const lineAngle = Math.atan2(dy, dx);
+                line.style.width = `${length}px`;
+                line.style.left = `${prevCell.x}px`;
+                line.style.top = `${prevCell.y}px`;
+                line.style.transform = `rotate(${lineAngle}rad)`;
+                game.board.appendChild(line);
+            }
+
+            x += direction * (40 + 10);
+            if ((i + 1) % cellsPerRow === 0) {
+                direction *= -1;
+                x += direction * (40 + 10);
+                y += 40 + 10;
+            }
+
+            game.board.appendChild(cell);
+        }
+
+        game.players.forEach(player => {
+            const playerElement = document.createElement('div');
+            playerElement.classList.add('player');
+            playerElement.dataset.player = player.id;
+            player.element = playerElement;
+            game.board.appendChild(playerElement);
+            updatePlayerPosition(game, player);
+        });
+    }
+
+    // Обновляем позицию фишки игрока
+    function updatePlayerPosition(game, player) {
+        const cell = game.cellPositions[player.position];
+        const playerElement = player.element;
+        playerElement.style.left = `${cell.x + 10}px`;
+        playerElement.style.top = `${cell.y + 10}px`;
+    }
+
+    // Анимация перемещения фишки
+    function animatePlayer(game, player, newPosition) {
+        const startCell = game.cellPositions[player.position];
+        const endCell = game.cellPositions[newPosition];
+        const playerElement = player.element;
+
+        playerElement.style.transition = 'all 0.5s ease-in-out';
+        playerElement.style.left = `${endCell.x + 10}px`;
+        playerElement.style.top = `${endCell.y + 10}px`;
+
+        playerElement.addEventListener('transitionend', () => {
+            player.position = newPosition;
+            playerElement.style.transition = '';
+        }, { once: true });
+    }
+
+    // Обработка хода
+    function move(gameIndex) {
+        const game = games[gameIndex];
+        const steps = parseInt(game.stepsInput.value);
+
+        if (isNaN(steps) || steps < 1 || steps > 6) {
+            game.statusDiv.textContent = 'Пожалуйста, введите число от 1 до 6.';
+            return;
+        }
+
+        const player = game.players[game.currentPlayer];
+        const newPosition = Math.min(player.position + steps, numCells - 1);
+
+        animatePlayer(game, player, newPosition);
+
+        if (newPosition >= numCells - 1) {
+            game.statusDiv.textContent = `Игрок ${player.id} победил!`;
+            game.stepsInput.disabled = true;
+            game.board.querySelector('button').disabled = true;
+        } else {
+            game.statusDiv.textContent = `Игрок ${player.id} на позиции ${newPosition + 1}.`;
+            game.currentPlayer = (game.currentPlayer + 1) % game.players.length;
+        }
+
+        game.stepsInput.value = '';
+    }
+
+    // Переключение между вкладками
+    const tabs = document.querySelectorAll('.tab');
+    const gameContainers = document.querySelectorAll('.game-container');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabIndex = tab.dataset.tab;
+
+            tabs.forEach(t => t.classList.remove('active'));
+            gameContainers.forEach(g => g.classList.remove('active'));
+
+            tab.classList.add('active');
+            document.querySelector(`.game-container[data-tab="${tabIndex}"]`).classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>
